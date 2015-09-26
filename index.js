@@ -1,21 +1,29 @@
 var winston = require('winston');
 var mongoose = require('mongoose');
 var Slack = require('slack-client');
+var nconf = require('nconf');
+var winston = require('winston');
     
 function AddonSlack (app, server, io, passport){
   var self = this;
 	this.name = 'Slack';
-	this.description = 'Just an very simple Example';
+	this.description = 'Slack integration addon';
   this.listDependencies = ['slack-robot'];
   var Testcase = mongoose.model('Testcase')
   var Result = mongoose.model('Result');
 
+  if( !nconf.get('slack')) {
+    winston.error('slack configuration missing!');
+    nconf.set('slack', {
+      token: 'xoxp-2987443183-9694241206-10619586020-44aa8be661'
+    })
+  }
+
 	this.register = function(){
-    
-    
+    console.log('skip slack addon for now');
+    return;
     var slackOpts = {
-      token: 'xoxp-2987443183-9694241206-10619586020-44aa8be661',
-      //token: process.env.SLACK_TOKEN // required
+      token: nconf.get('slack').token,
       autoReconnect: true,
       //autoMark: false
     }

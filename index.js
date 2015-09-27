@@ -14,14 +14,10 @@ function AddonSlack (app, server, io, passport){
 
   if( !nconf.get('slack')) {
     winston.error('slack configuration missing!');
-    nconf.set('slack', {
-      token: 'xoxp-2987443183-9694241206-10619586020-44aa8be661'
-    })
+    return;
   }
 
 	this.register = function(){
-    console.log('skip slack addon for now');
-    return;
     var slackOpts = {
       token: nconf.get('slack').token,
       autoReconnect: true,

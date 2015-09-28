@@ -34,7 +34,7 @@ function AddonSlack (app, server, io, passport){
     var allowedChannel = function(channel) {
         if( allowAllChannels ) return true;
         if( !channel || !channel.name ) return false;
-        winston.log('check if channel is valid: '+channel.name);
+        winston.log('SLACK: check if channel is valid: '+channel.name);
         return allowedChannels.some( function(ch) {
             if( channel.name.toLowerCase().match(ch) ){
                 return true;
@@ -44,7 +44,7 @@ function AddonSlack (app, server, io, passport){
     var allowedUser = function(user) {
         if( allowAllUsers ) return true;
         if( !user || !user.real_name ) return false;
-        winston.log('check if user is valid: '+user.real_name);
+        winston.log('SLACK: check if user is valid: '+user.real_name);
         return allowedUsers.some( function(usr) {
             if( user.real_name.toLowerCase().match(usr) ){
                 return true;
@@ -96,7 +96,7 @@ function AddonSlack (app, server, io, passport){
             }
         }
         q.q = JSON.stringify(q.q);
-        console.log('result query: '+JSON.stringify(q));
+        console.log('SLACK: result query: '+JSON.stringify(q));
         Result.query(q, function(error, list){
             if( error ) {
                 channel.send('Error while query');
@@ -124,7 +124,7 @@ function AddonSlack (app, server, io, passport){
     
     var execute = function(message, channel, user) {
         if( !message.text.match(/^\:/) ) return false;
-        console.log('check if cmd is valid: '+message.text);
+        console.log('SLACK: check if cmd is valid: '+message.text);
         return commands.some( function(cmd) {
             m =  message.text.match(cmd.m);
             if(m) {
@@ -139,7 +139,7 @@ function AddonSlack (app, server, io, passport){
             channel = slack.getChannelGroupOrDMByID(message.channel)
             user = slack.getUserByID(message.user)
             if( !allowMessage(channel, user) ) {
-                winston.warn('message not allowed');
+                winston.warn('SLACK: message not allowed');
                 return;
             }
             if( !user.hasOwnProperty("real_name") ) {
@@ -149,7 +149,7 @@ function AddonSlack (app, server, io, passport){
             }
             winston.log('SLACK: '+channel.name+'|'+user.real_name+''+message.text);
             if( !execute(message, channel, user) ) {
-                console('Unknown command: '+message.text);
+                console('SLACK: Unknown command: '+message.text);
             }
         } catch( e ) {
             console.log(e);
@@ -174,6 +174,7 @@ function AddonSlack (app, server, io, passport){
       // Get all groups that are open and not archived 
       //groups = (group.name for id, group of slack.groups when group.is_open and not group.is_archived)
     })
+    .on('error', winston.error);
     .on('message', handleMessage);
     slack.login();
     /*

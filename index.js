@@ -19,16 +19,40 @@ function AddonSlack (app, server, io, passport){
     var allowAllChannels = false;
     var allowedChannels = [/jussiva/, /wirkus/, /thread/, /6lowpan/, /clitest/];
 
-  if( !nconf.get('slack')) {
-    winston.error('slack configuration missing!');
-    return;
-  }
+    var cfg = nconf.get('slack');
 
 	this.register = function(){
-    var slackOpts = {
-      token: nconf.get('slack').token,
-      autoReconnect: true,
-      //autoMark: false
+
+        if( !cfg || !cfg.token ) {
+            winston.error('slack configuration missing!');
+            return;
+        }
+        
+        var slackOpts = {
+          token: nconf.get('slack').token,
+          autoReconnect: true,
+          //autoMark: false
+        }
+        var slack = new Slack(slackOpts.token, slackOpts.autoReconnect, slackOpts.automark);
+
+        slack
+          .on('open', function(){
+          channels = []
+          groups = []
+          unreads = slack.getUnreadCount()
+          winston.info('Slack -connection open');
+          // Get all the channels that bot is a member of
+          /*channels = {} 
+          for( var id, channel in slack.channels ) {
+             if( channel.is_member ) 
+              channels[channel.id] = channel.name;
+          }*/
+          // Get all groups that are open and not archived 
+          //groups = (group.name for id, group of slack.groups when group.is_open and not group.is_archived)
+        })
+        .on('error', winston.error)
+        .on('message', handleMessage);
+        slack.login();
     }
     
     var allowedChannel = function(channel) {
@@ -51,7 +75,7 @@ function AddonSlack (app, server, io, passport){
             }
         });
     }
-    
+
     var allowMessage = function(channel, user) {
         if( !allowedChannel(channel) ) return false;
         if( !allowedUser(user) ) return false;
@@ -156,27 +180,6 @@ function AddonSlack (app, server, io, passport){
             console.log(message.text);
         }
     }
-
-    var slack = new Slack(slackOpts.token, slackOpts.autoReconnect, slackOpts.automark);
-
-    slack
-      .on('open', function(){
-      channels = []
-      groups = []
-      unreads = slack.getUnreadCount()
-      winston.info('Slack -connection open');
-      // Get all the channels that bot is a member of
-      /*channels = {} 
-      for( var id, channel in slack.channels ) {
-         if( channel.is_member ) 
-          channels[channel.id] = channel.name;
-      }*/
-      // Get all groups that are open and not archived 
-      //groups = (group.name for id, group of slack.groups when group.is_open and not group.is_archived)
-    })
-    .on('error', winston.error);
-    .on('message', handleMessage);
-    slack.login();
     /*
     var robotOpts = {
       ignoreMessageInGeneral: true,
@@ -198,7 +201,7 @@ function AddonSlack (app, server, io, passport){
     app.get('/api/v0/slack', function(req, res){
 		  res.json({ok: 1});
 		});*/
-	}
+	
 
   return this;
 }

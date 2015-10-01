@@ -12,12 +12,12 @@ function AddonSlack (app, server, io, passport){
     this.listDependencies = ['slack-robot'];
     var Testcase = mongoose.model('Testcase')
     var Result = mongoose.model('Result');
-    
-    var allowAllUsers = true;
-    var allowedUsers = [/jussi/, /wirkus/];
+
+    var allowAllUsers = false;
+    var allowedUsers = [/myAllowedUser/];
     
     var allowAllChannels = false;
-    var allowedChannels = [/jussiva/, /wirkus/, /thread/, /6lowpan/, /clitest/];
+    var allowedChannels = [/allowedChannel/];
 
     var cfg = nconf.get('slack');
 
@@ -180,30 +180,8 @@ function AddonSlack (app, server, io, passport){
             console.log(message.text);
         }
     }
-    /*
-    var robotOpts = {
-      ignoreMessageInGeneral: true,
-      //mentionToRespond: true,
-      //skipDMMention: false
-    }
-    var robot = new Robot(slackOpts, robotOpts);
-    
-    robot.listen('hello') //:results([a-z\-]+)
-      .handler(function(req, res) {
-      // you can get named-param inside Request object
-      console.log(req.param);
-      console.log("hello received");
-      res.sendText("Hi There");
-      // {animal: 'sheep', year: '2010'}  
-      // note that req.param always returns Map<string, string>
-    });
 
-    app.get('/api/v0/slack', function(req, res){
-		  res.json({ok: 1});
-		});*/
-	
-
-  return this;
+    return this;
 }
 
 exports = module.exports = AddonSlack;

@@ -7,21 +7,24 @@ var winston = require('winston');
     
 function AddonSlack (app, server, io, passport){
     var self = this;
-	this.name = 'Slack';
-	this.description = 'Slack integration addon';
+    this.name = 'Slack';
+    this.description = 'Slack integration addon';
     this.listDependencies = ['slack-robot'];
+    
     var Testcase = mongoose.model('Testcase')
     var Result = mongoose.model('Result');
-
-    var allowAllUsers = false;
-    var allowedUsers = [/myAllowedUser/];
     
-    var allowAllChannels = false;
-    var allowedChannels = [/allowedChannel/];
-
     var cfg = nconf.get('slack');
 
-	this.register = function(){
+    var allowAllUsers = false;
+    var allowedUsers = cfg.allowedUsers | [/myAllowedUser/];
+    
+    var allowAllChannels = false;
+    var allowedChannels = cfg.allowedChannels | [/allowedChannel/];
+
+    
+
+    this.register = function(){
 
         if( !cfg || !cfg.token ) {
             winston.error('slack configuration missing!');
@@ -29,7 +32,7 @@ function AddonSlack (app, server, io, passport){
         }
         
         var slackOpts = {
-          token: nconf.get('slack').token,
+          token: cfg.token,
           autoReconnect: true,
           //autoMark: false
         }

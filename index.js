@@ -9,7 +9,6 @@ function AddonSlack (app, server, io, passport){
     var self = this;
     this.name = 'Slack';
     this.description = 'Slack integration addon';
-    this.listDependencies = ['slack-robot'];
     
     var Testcase = mongoose.model('Testcase')
     var Result = mongoose.model('Result');
@@ -20,9 +19,7 @@ function AddonSlack (app, server, io, passport){
     var allowedUsers = cfg.allowedUsers | [/myAllowedUser/];
     
     var allowAllChannels = false;
-    var allowedChannels = cfg.allowedChannels | [/allowedChannel/];
-
-    
+    var allowedChannels = cfg.allowedChannels | [/allowedChannel/];    
 
     this.register = function(){
 

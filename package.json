@@ -1,25 +1,25 @@
-
 {
-  "name": "tmt-slack",
+  "name": "opentmi-slack",
   "version": "0.1.0",
-  "description": "TMT slack addon",
+  "description": "OpenTMI slack addon",
   "main": "index.js",
   "scripts": {
   },
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.com/_tmt_/tmt-slack.git"
+    "url": "https://github.com/OpenTMI/opentmi-slack.git"
   },
   "keywords": [
+    "opentmi",
     "test",
     "automation",
     "management",
     "slack"
   ],
   "author": "Jussi Vatjus-Anttila <jussiva@gmail.com>",
-  "license": "MIT",
-  "readmeFilename": "Readme.md",
-  "tmt": {
+  "license": "GPLv3",
+  "readmeFilename": "README.md",
+  "opentmi": {
     "id": "slack",
     "title": "Slack",
     "type": "provider",

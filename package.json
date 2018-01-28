@@ -30,8 +30,11 @@
   "devDependencies": {},
   "dependencies": {
     "@slack/client": "^3.15.0",
+    "bluebird": "^3.5.1",
     "invariant": "^2.2.2",
+    "json-templates": "^1.9.0",
     "lodash": "^4.17.4",
-    "mongoose": "^4.13.10"
+    "mongoose": "^4.13.10",
+    "opentmi-addon": "github:opentmi/opentmi-addon"
   }
 }

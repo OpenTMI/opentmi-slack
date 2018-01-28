@@ -1,7 +1,6 @@
 // 3rd party modules
 const mongoose = require('mongoose');
 const _ = require('lodash');
-const nconf = require('nconf');
 const {singleton, Addon} = require('opentmi-addon');
 
 const Slack = require('./slack');
@@ -12,10 +11,9 @@ class AddonSlack extends Addon {
     super(...args);
     this._name = 'Slack';
     this.description = 'Slack integration addon';
-    this._slackCfg = nconf.get('slack');
   }
   register() {
-    const config = this._slackCfg;
+    const config = this.settings;
     const token = _.get(config, 'token');
     if (!token) {
       this.logger.error('slack configuration missing!');

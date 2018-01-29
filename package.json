@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "description": "OpenTMI slack addon",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/OpenTMI/opentmi-slack.git"
@@ -17,7 +16,7 @@
     "slack"
   ],
   "author": "Jussi Vatjus-Anttila <jussiva@gmail.com>",
-  "license": "GPLv3",
+  "license": "MIT",
   "readmeFilename": "README.md",
   "opentmi": {
     "id": "slack",
@@ -28,9 +27,15 @@
       "controller": "SlackCtrl"
     }
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
-    "slack-client": "*"
+    "@slack/client": "^3.15.0",
+    "bluebird": "^3.5.1",
+    "invariant": "^2.2.2",
+    "json-templates": "^1.9.0",
+    "lodash": "^4.17.4",
+    "mongoose": "^4.13.10",
+    "nconf": "^0.10.0",
+    "opentmi-addon": "github:opentmi/opentmi-addon"
   }
 }

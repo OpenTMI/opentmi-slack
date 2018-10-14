@@ -21,13 +21,16 @@ class AddonSlack extends Addon {
     }
     const options = {
       logger: this.logger,
-      defaultChannel: _.get(config, 'defaultChannel')
+      defaultChannelName: _.get(config, 'defaultChannel', '')
     };
     this._slack = new Slack(options);
     this._slack.login(token);
+    this._slack.on('error', (error) => {
+      this.logger.error('error:', error);
+    });
     const models = {
-      Result: mongoose.model('Result'),
-      Testcase: mongoose.model('Testcase')
+      Result: this.mongoose.model('Result'),
+      Testcase: this.mongoose.model('Testcase')
     };
     this._bot = new Bot({
       chat: this._slack,

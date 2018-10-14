@@ -7,14 +7,18 @@
 {
   "opentmi-slack": {
     "token": "<token>",
-    "defaultChannelName": "<bot-channel>",
+    "defaultChannel": "<bot-channel>",
     "filters": {
       "allowedChannels": ["<channelName>"],
       "allowedUsers": ["<real_name>"]
     },
     "result": {
-      "template": "New test result for {{tcid}} : {{exec.verdict}} ({{exec.note}})",
-      "filter": <filter-object>
+      "filters": {
+        <name>: <filter-object>
+      },
+      "templates": {
+        <name>: "<template>"
+      }
     }
   }
 }

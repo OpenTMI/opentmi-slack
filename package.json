@@ -29,7 +29,7 @@
   },
   "devDependencies": {},
   "dependencies": {
-    "@slack/client": "^3.15.0",
+    "@slack/client": "^5.0.0",
     "bluebird": "^3.5.1",
     "invariant": "^2.2.2",
     "json-templates": "^1.9.0",
